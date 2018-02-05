@@ -77,7 +77,6 @@ for n = 0:dt:t
     figure(2)
     for q = 1:1:numplot
         title('Electrons movement');
-        xlabel(['The mean free path is ' num2str(MFP) ', and the mean time is' num2str(tmn) '.']);
         plot([previous(q, 1), Elec(q, 1)], [previous(q, 2), Elec(q,2)], 'color', color(q, :))
         xlim([0 L])
         ylim([0 W])
@@ -109,3 +108,8 @@ for n = 0:dt:t
     title('Average temperature');
     hold on
 end
+
+vthav = mean(sqrt(vth_ex.^2+vth_ey.^2));    % Average of thermal velocity of all electrons
+MFP = vthav*tmn;                            % Mean free path of electrons
+figure(2)
+xlabel(['The mean free path is ' num2str(MFP) ', and the mean time is' num2str(tmn) '.']);
