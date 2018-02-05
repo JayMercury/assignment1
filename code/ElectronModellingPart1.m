@@ -1,3 +1,12 @@
+%% Assignment 1
+%% Part 1
+% In this assignment, we are going to simulate electron movement with
+% different condition and boundaries.
+% In part 1, we are just setting the basic boundaries that the electrons
+% can move in and the electron will always move in straight until it hits
+% the boundary walls.
+
+% Reset Everything
 close all
 clear
 
@@ -12,12 +21,14 @@ L = 200e-9;
 W = 100e-9;
 
 % Current Condition and variables
-num = 1e3;                              % Number of electrons
+num = 1e4;                              % Number of electrons
 T = 300;                                % Temperature (Kelvin)
 vth_e = sqrt((2*kb*T)/(m_0));           % Thermal velocity of an electron
 vth_ex = (vth_e/sqrt(2))*randn(num, 1); % X-component of thermal velocity
 vth_ey = (vth_e/sqrt(2))*randn(num, 1); % Y-component of thermal velocity
-vthav = sqrt(vth_ex.^2+vth_ey.^2);      % Average of thermal velocity
+vthdis = sqrt(vth_ex.^2+vth_ey.^2);     % Distribution of electrons thermal velocity
+vthav = mean(sqrt(vth_ex.^2+vth_ey.^2));% Average of thermal velocity 
+MFP = vthav*tmn;                        % Mean free path of electrons
 
 % Electrons Defining
 Elec = zeros(num, 4);
@@ -30,7 +41,7 @@ previous = Elec;
 
 % Electron simulation
 figure(2);
-t = 1e-3;                           % Total Time
+t = 1e-11;                           % Total Time
 dt = 1e-14;                         % Time Step
 Psat = 1 - exp(-dt/tmn);            % Exponential Scattering Probability
 numplot = 5;                        % Number of electron plotted
@@ -48,6 +59,7 @@ for n = 0:dt:t
     figure(2)
     for q = 1:1:numplot
         title('Electrons movement');
+        xlabel(['The vth is ' num2str(vth_e) ', and the mean free path is ' num2str(MFP) '.']);
         plot([previous(q, 1), Elec(q, 1)], [previous(q, 2), Elec(q,2)], 'color', color(q, :))
         xlim([0 L])
         ylim([0 W])
